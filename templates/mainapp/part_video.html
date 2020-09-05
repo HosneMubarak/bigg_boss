@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block content %}
+    <section id="breadcrum">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'main_app:home' %}">Home</a></li>
+                <li class="breadcrumb-item text-light active" aria-current="page">{{ article.title }}</li>
+            </ol>
+        </nav>
+    </section>
+
+    <section id="mainSection">
+        <div class="container text-light">
+            <div class="row">
+                <div class="col-lg-8">
+
+                    <h2 class="mt-3">Episode : {{ article.title }}</h2>
+                    <a class="btn-warning btn-lg mt-2" target="_blank" class="blink"
+                       href=""><span>{{ article.publish_date }}</span></a>
+                    <br>
+                 <hr class="bg-warning">
+                   {% if article.Part_1 %}
+
+                        <p>Part:1</p>
+                        <div class="video" style="width: 100%; height: 484px; position: relative;">
+                        <iframe src="{{ article.Part_1 }}" width="100%"
+                                height="480" frameborder="0" scrolling="no" seamless=""
+                                allowfullscreen="allowfullscreen"></iframe>
+                        <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;"></div>
+                    </div>
+                       {%else%}
+                       <p>Coming Soon..</p>
+                   {% endif %}
+
+                {% if article.Part_2 %}
+
+                        <p>Part:2</p>
+                        <div class="video" style="width: 100%; height: 484px; position: relative;">
+                        <iframe src="{{ article.Part_2 }}" width="100%"
+                                height="480" frameborder="0" scrolling="no" seamless=""
+                                allowfullscreen="allowfullscreen"></iframe>
+                        <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;"></div>
+                    </div>
+                       {%else%}
+                       <p>Coming Soon..</p>
+                   {% endif %}
+                {% if article.Part_3 %}
+
+                        <p>Part:3</p>
+                        <div class="video" style="width: 100%; height: 484px; position: relative;">
+                        <iframe src="{{ article.Part_3 }}" width="100%"
+                                height="480" frameborder="0" scrolling="no" seamless=""
+                                allowfullscreen="allowfullscreen"></iframe>
+                        <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;"></div>
+                    </div>
+                       {%else%}
+                       <p>Coming Soon..</p>
+                   {% endif %}
+                {% if article.Part_4 %}
+
+                        <p>Part:4</p>
+                        <div class="video" style="width: 100%; height: 484px; position: relative;">
+                        <iframe src="{{ article.Part_4 }}" width="100%"
+                                height="480" frameborder="0" scrolling="no" seamless=""
+                                allowfullscreen="allowfullscreen"></iframe>
+                        <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;"></div>
+                    </div>
+                       {%else%}
+                       <p>Coming Soon..</p>
+                   {% endif %}
+                {% if article.Part_5 %}
+
+                        <p>Part:5</p>
+                        <div class="video" style="width: 100%; height: 484px; position: relative;">
+                        <iframe src="{{ article.Part_5 }}" width="100%"
+                                height="480" frameborder="0" scrolling="no" seamless=""
+                                allowfullscreen="allowfullscreen"></iframe>
+                        <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;"></div>
+                    </div>
+                       {%else%}
+                       <p>Coming Soon..</p>
+                   {% endif %}
+                {% if article.Part_6 %}
+
+                        <p>Part:6</p>
+                        <div class="video" style="width: 100%; height: 484px; position: relative;">
+                        <iframe src="{{ article.Part_6 }}" width="100%"
+                                height="480" frameborder="0" scrolling="no" seamless=""
+                                allowfullscreen="allowfullscreen"></iframe>
+                        <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;"></div>
+                    </div>
+                       {%else%}
+                       <p>Coming Soon..</p>
+                   {% endif %}
+
+
+                </div>
+                <div class="col-md-4">
+                    <h2 class="text-warning">Share On :
+                        <div class="fb-share-button btn-lg" data-href="{{ request.path }}"
+                             data-layout="button" data-size="large"><a target="_blank"
+                                                                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                                                                       class="fb-xfbml-parse-ignore">Share</a></div>
+                    </h2>
+                    <hr>
+                    <h2>Last 3 Episode:</h2>
+                    <hr class="bg-warning">
+                    <div class="col-md-12 text-black-50">
+                        {% for side_post in side_article %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ side_post.title }}</h5>
+                                <small>{{ side_post.publish_date }}</small><br>
+                                <a target="_blank" href="{% url 'main_app:detail' side_post.id %}"
+                                   class="btn-lg btn-block btn-danger text-center">Watch Now</a>
+                                <hr class="bg-danger">
+                            </div>
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+    <hr class="bg-warning">
+
+{% endblock %}

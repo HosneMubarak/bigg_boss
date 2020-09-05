@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block content %}
+    <section id="breadcrum">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'main_app:home' %}">Home</a></li>
+                <li class="breadcrumb-item text-light active" aria-current="page">{{ article.title }}</li>
+            </ol>
+        </nav>
+    </section>
+
+    <section id="mainSection">
+        <div class="container text-light">
+            <div class="row">
+                <div class="col-lg-8">
+                    <img src="{% static 'images/biggboss.jpg' %}" class="img-fluid border-warning post-image" alt="">
+                    <h1 class="mt-4">{{ article.title }}</h1>
+                    <p class="lead">Post Date:{{ article.publish_date }} </p><a href="#" class="btn btn-sm btn-warning">Bigg
+                    Bosss <span id="blkn"><i class="fa fa-level-down"></i></span></a>
+                    <hr class="bg-white">
+                    <div class="player m-3">
+                        <div class="mt-3" id="alllink">
+                            {% if article.single_video_google %}
+                                {% if request.user.is_superuser %}
+                                    <a class="btn-danger btn-lg" target="_blank" class="blink"
+                                       href="{% url 'main_app:video_file' article.slug %}"><span
+                                            id="blkn">Admin Link</span></a>
+                                    <br>
+                                    <br>
+                                {% endif %}
+                            {% else %}
+                                <a href="#">Comming Soon ........</a><br>
+                            {% endif %}
+                            {% if article.ad_published %}
+                                {% if article.Ad_link_1 %}
+                                    <a class="btn-warning btn-lg" target="_blank" class="blink"
+                                       href="{{ article.Ad_link_1 }}"><span id="blkn">Single link 1080p HD VIDEO</span></a>
+                                    <br>
+                                    <br>
+                                {% else %}
+                                    <a href="#">Comming Soon ........</a><br>
+                                {% endif %}
+                                {% if article.Ad_link_2 %}
+                                    <a class="btn-warning btn-lg" target="_blank" class="blink"
+                                       href="{{ article.Ad_link_2 }}"><span id="blkn">Single link 1080p HD VIDEO</span></a>
+                                    <br>
+                                    <br>
+                                {% else %}
+                                    <a href="#">Comming Soon ........</a><br>
+                                {% endif %}
+                                {% if article.Ad_link_3 %}
+                                    <a class="btn-warning btn-lg" target="_blank" class="blink"
+                                       href="{{ article.Ad_link_3 }}"><span
+                                            id="blkn">Single link 720p HD VIDEO</span></a>
+                                    <br>
+                                    <br>
+                                {% else %}
+                                    <a href="#">Comming Soon ........</a><br>
+                                {% endif %}
+                            {% else %}
+                                <a class="btn-success btn-lg" target="_blank" class="blink"
+                                   href="{% url 'main_app:video_file' article.slug %}"><span id="blkn">Single link 1080p HD VIDEO (FREE)</span></a>
+                                <br>
+                                <br>
+
+                            {% endif %}
+                        </div>
+                    </div>
+                    <hr class="bg-white">
+                    <div class="player m-3">
+                        <span class="btn-primary btn-lg">Part Link Here:</span>
+                       {% if article.ad_published %}
+                        <div class="mt-3" class="alllink">
+                            {% if article.Part_1 %}
+                                <a target="_blank"
+                                   href="{{ article.Ad_Part_link }}">{{ article.title }}- Part
+                                    1</a><br>
+                            {% endif %}
+                            {% if article.Part_2 %}
+                                <a target="_blank"
+                                   href="{{ article.Ad_Part_link }}">{{ article.title }}- Part
+                                    2</a><br>
+                            {% endif %}
+                            {% if article.Part_3 %}
+                                <a target="_blank"
+                                   href="{{ article.Ad_Part_link }}">{{ article.title }}- Part
+                                    3</a><br>
+                            {% endif %}
+                            {% if article.Part_4 %}
+                                <a target="_blank"
+                                   href="{{ article.Ad_Part_link }}">{{ article.title }}- Part
+                                    4</a><br>
+                            {% endif %}
+                            {% if article.Part_5 %}
+                                <a target="_blank"
+                                   href="{{ article.Ad_Part_link }}">{{ article.title }}- Part
+                                    5</a><br>
+                            {% endif %}
+                            {% if article.Part_6 %}
+                                <a target="_blank"
+                                   href="{{ article.Ad_Part_link }}">{{ article.title }}- Part
+                                    6</a><br>
+                            {% endif %}
+                        </div>
+                       {% endif %}
+                    </div>
+                    <hr class="bg-warning">
+                </div>
+                <div class="col-md-4">
+                    <h2 class="text-warning">Share On :
+                        <div class="fb-share-button btn-lg" data-href="{{ request.path }}"
+                             data-layout="button" data-size="large"><a target="_blank"
+                                                                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                                                                       class="fb-xfbml-parse-ignore">Share</a></div>
+                    </h2>
+                    <hr>
+                    <h2>Last 3 Episode:</h2>
+                    <hr class="bg-warning">
+                    <div class="col-md-12 text-black-50">
+                        {% for side_post in side_article %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ side_post.title }}</h5>
+                                <small>{{ side_post.publish_date }}</small><br>
+                                <a target="_blank" href="{% url 'main_app:detail' side_post.slug %}"
+                                   class="btn-lg btn-block btn-danger text-center">Watch Now</a>
+                                <hr class="bg-danger">
+                            </div>
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="bg-warning">
+        <div class="container">
+            <div class="card mt-4">
+                <div class="card-header">Leave a Comment:</div>
+                {% if user.is_authenticated %}
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                    <button type="submit" class="btn btn-warning mt-1">Submit</button>
+                        {% else %}
+                            <a class="btn btn-danger mt-1" href="{% url 'account_login' %}">Login First</a>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+            <div class="container">
+                <div class="all-comment">
+                {% for comment in article.comments.all %}
+                    <div class="card mt-2">
+                        <div class="card-header">User Name: {{ comment.author }}</div>
+                        <div class="card-body">
+                            <p class="card-text text-black">Comment({{ forloop.counter }}): <br> {{ comment.text }}</p>
+
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+            </div>
+        </div>
+
+
+    </section>
+    <hr class="bg-warning">
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+{% block content %}
+    <div class="main-container">
+        <section id="start-section">
+            <div class="container starter-template text-center text-light col-sm-6">
+                <h1 class="ml4 mb-3">
+                    <span class="letters letters-1">Bigg</span>
+                    <span class="letters letters-2">Boss</span>
+                    <span class="letters letters-3">Season14</span>
+                    <span class="letters letters-4 text-danger">LIVE!</span>
+                </h1>
+                <p class="lead">Bigg Boss Fan Club</p>
+            </div>
+        </section>
+        <section id="main">
+            <div class="container py-5">
+                <h2 class="text-light">Latest Episode :</h2>
+                <hr class="bg-white">
+                <div class="row">
+                    {% for article in article_list %}
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="{% static 'images/slaman.jpg' %}" class="bd-placeholder-img card-img-top"
+                                     width="100%"
+                                     height="225">
+                                <div class="card-img-overlay">
+                                    <h3>
+                                        <span class="badge badge-warning">Date:{{ article.publish_date }}</span>
+                                    </h3>
+                                </div>
+
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ article.title }}</h5>
+                                    <small class="text-muted">Date: {{ article.publish_date|date:"Y-m-d" }}</small>
+                                    <hr class="bg-warning">
+                                    <p class="card-text">For watching bigg boss season 14 HD online Click on "Watch Now"
+                                        .</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        {% if article.published %}
+                                            <div class="btn-group">
+                                                <a href="{% url 'main_app:detail' article.slug %}"
+                                                   class="btn btn-outline-danger btn-lg">Watch Now</a>
+
+                                            </div>
+                                        {% else %}
+                                            <p class="text-center bg-warning btn-lg">Comming Soon</p>
+                                        {% endif %}
+
+                                        <small class="text-muted">{{ article.created|naturaltime }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+                <hr class="bg-white">
+                <div>
+                    <div class="pagination">
+    <span class="step-links">
+        {% if article_list.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ article_list.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ article_list.number }} of {{ article_list.paginator.num_pages }}.
+        </span>
+
+        {% if article_list.has_next %}
+            <a href="?page={{ article_list.next_page_number }}">next</a>
+            <a href="?page={{ article_list.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
